@@ -346,8 +346,6 @@ void decoder_init(Decoder* decoder, AVCodecContext* codec_ctx, PacketQueue* pkt_
 
 int decoder_start(Decoder* decoder, int (*decoder_fun)(void*), const char* thread_name, void* arg) {
     packet_queue_start(decoder->pkt_queue);
-
-    SPlayerContext* spc = arg;
     decoder->decoder_tid = SDL_CreateThread(decoder_fun, thread_name, arg);
     return 0;
 }
@@ -668,7 +666,6 @@ void sdl_audio_callback(void* _spc, uint8_t* stream, int len) {
 
 int audio_open(SPlayerContext* spc, int nb_channels, int sample_rate, int64_t channel_layout,
                AudioParams* audio_params_dst) {
-    int ret;
     SDL_AudioSpec wanted_spec, real_spec;
     wanted_spec.channels = nb_channels;
     wanted_spec.freq = sample_rate;
